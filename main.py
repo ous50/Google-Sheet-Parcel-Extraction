@@ -29,11 +29,17 @@ app = Flask(__name__)
 
 @app.route(args.path, methods=['POST', 'GET'])
 def process_endpoint():
-    data = request.get_json()
-    roomNumber = data.get('roomNumber')
+     # Try to get data from JSON body
+    data = request.get_json(silent=True) or {}
+    
+    # If roomNumber is not in JSON body, get it from query parameters
+    roomNumber = data.get('roomNumber') or request.args.get('roomNumber')
+    
     if not roomNumber:
         return jsonify({"error": "roomNumbers required."}), 400
-    bark = data.get('bark') or False
+    
+     # If bark is not in JSON body, get it from query parameters
+    bark = data.get('bark') or request.args.get('bark', default=False, type=bool)
 
     result = getmsg.get_msg(roomNumber)
 
