@@ -1,11 +1,30 @@
-from flask import Flask, request, jsonify
-from waitress import serve
 import json
-import logging
-import getmsg
-import notification
 import argparse
 
+# Read configuration from config.json
+with open('config.json', 'r') as config_file:
+    config = json.load(config_file)
+
+parser = argparse.ArgumentParser(
+    description="Start the backend on a given port.")
+parser.add_argument('--port', '-P', type=int, default=config.get('port',
+                    5000), help="Port to run the backend on.")
+parser.add_argument('--host', '-H', type=str,
+                    default=config.get('host', '127.0.0.1'), help="Binding IP.")
+parser.add_argument('--debug', '-D', action="store_true",
+                    default=config.get('debug', False), help="Run in debug mode.")
+parser.add_argument('--path', '-p', type=str,
+                    default=config.get('path', '/'), help="Path to run the backend on.")
+args = parser.parse_args()
+
+print("Running on %s:%d%s" % (args.host, args.port, args.path))
+
+from flask import Flask, request, jsonify
+from waitress import serve
+
+import logging
+from getmsg import get_msg
+import notification
 
 app = Flask(__name__)
 
@@ -25,7 +44,7 @@ def process_endpoint():
     bark = data.get('bark') or request.args.get(
         'bark', default=False, type=bool)
 
-    result = getmsg.get_msg(roomNumber)
+    result = get_msg(roomNumber)
 
     if bark:
         notification.send_bark(result)
@@ -34,21 +53,7 @@ def process_endpoint():
 
 
 if __name__ == '__main__':
-    # Read configuration from config.json
-    with open('config.json', 'r') as config_file:
-        config = json.load(config_file)
 
-    parser = argparse.ArgumentParser(
-        description="Start the backend on a given port.")
-    parser.add_argument('--port', '-P', type=int, default=config.get('port',
-                        5000), help="Port to run the backend on.")
-    parser.add_argument('--host', '-H', type=str,
-                        default=config.get('host', '127.0.0.1'), help="Binding IP.")
-    parser.add_argument('--debug', '-D', action="store_true",
-                        default=config.get('debug', False), help="Run in debug mode.")
-    parser.add_argument('--path', '-p', type=str,
-                        default=config.get('path', '/'), help="Path to run the backend on.")
-    args = parser.parse_args()
 
     if args.debug:
         logging.basicConfig(level=logging.DEBUG)  # Set logging level

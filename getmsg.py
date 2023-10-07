@@ -12,11 +12,7 @@ with open('config.json', 'r') as config_file:
 room = config.get('room') or input("Enter your room number:")
 bark = config.get("bark", {}).get("enabled", False)
 
-argparser = argparse.ArgumentParser(
-    description="Get message from the spreadsheet.")
-argparser.add_argument('--room', '-R', type=str, default=config.get('room', None), help="Room number.")
-argparser.add_argument('--bark', '-B', default=bark, action="store_true", help="Send bark notification.")
-args = argparser.parse_args()
+
 
 # unexplicit room number match (in the 2nd column), return a list of messages
 def match_room_return_msg_list(room,s):
@@ -56,6 +52,11 @@ def get_msg(room):
 
 
 if __name__ == '__main__':
+    argparser = argparse.ArgumentParser(
+        description="Get message from the spreadsheet.")
+    argparser.add_argument('--room', '-R', type=str, default=config.get('room', None), help="Room number.")
+    argparser.add_argument('--bark', '-B', default=bark, action="store_true", help="Send bark notification.")
+    args = argparser.parse_args()
     msg = get_msg(room)
     print(msg)
     if args.bark:

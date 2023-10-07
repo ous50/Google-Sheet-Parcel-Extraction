@@ -1,0 +1,13 @@
+{
+    "port": 5000,
+    "host": "127.0.0.1",
+    "path": "/",
+    "debug": false,
+    "spreadsheet_id": "16a4Yj_Lm2kfN-bBmuuvK5SBHU7C-VPMxjsXkAQrHZdc",
+    "room": "A1",
+    "bark": {
+        "enable": false,
+        "url": "https://api.day.app/<api-key>/",
+        "title": "Package Arrived"
+    }
+}
