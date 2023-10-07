@@ -48,6 +48,8 @@ def process_endpoint():
     result = get_msg(roomNumber)
 
     if bark:
+        if not bark_url or not isinstance(bark_url, str):
+            return jsonify({"error": "bark_url required."}), 400
         notification.send_bark(result, bark_url=bark_url)
 
     return jsonify({"roomNumber": roomNumber, "bark": bark, "result": result})
