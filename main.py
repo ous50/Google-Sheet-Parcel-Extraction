@@ -17,7 +17,7 @@ parser.add_argument('--port', '-P', type=int, default=config.get('port',
                     5000), help="Port to run the backend on.")
 parser.add_argument('--host', '-H', type=str,
                     default=config.get('host', '127.0.0.1'), help="Binding IP.")
-parser.add_argument('--debug', '-D', type=bool,
+parser.add_argument('--debug', '-D', action="store_true",
                     default=config.get('debug', False), help="Run in debug mode.")
 parser.add_argument('--path', '-p', type=str,
                     default=config.get('path', '/'), help="Path to run the backend on.")
@@ -34,7 +34,7 @@ def process_endpoint():
     
     # If roomNumber is not in JSON body, get it from query parameters
     roomNumber = data.get('roomNumber') or request.args.get('roomNumber')
-    
+
     if not roomNumber:
         return jsonify({"error": "roomNumbers required."}), 400
     

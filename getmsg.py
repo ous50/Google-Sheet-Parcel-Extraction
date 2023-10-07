@@ -15,7 +15,7 @@ bark = config.get("bark", {}).get("enabled", False)
 argparser = argparse.ArgumentParser(
     description="Get message from the spreadsheet.")
 argparser.add_argument('--room', '-R', type=str, default=config.get('room', None), help="Room number.")
-argparser.add_argument('--bark', '-B', type=bool, default=config.get('bark', False), help="Send bark notification.")
+argparser.add_argument('--bark', '-B', default=bark, action="store_true", help="Send bark notification.")
 args = argparser.parse_args()
 
 # unexplicit room number match (in the 2nd column), return a list of messages
