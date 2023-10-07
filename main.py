@@ -19,13 +19,15 @@ parser.add_argument('--host', '-H', type=str,
                     default=config.get('host', '127.0.0.1'), help="Binding IP.")
 parser.add_argument('--debug', '-D', type=bool,
                     default=config.get('debug', False), help="Run in debug mode.")
+parser.add_argument('--path', '-p', type=str,
+                    default=config.get('path', '/'), help="Path to run the backend on.")
 args = parser.parse_args()
 
 
 app = Flask(__name__)
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route(args.path, methods=['POST', 'GET'])
 def process_endpoint():
     data = request.get_json()
     roomNumber = data.get('roomNumber')
