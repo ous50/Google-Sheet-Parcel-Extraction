@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('--port', '-P', type=int, default=config.get('port',
                     5000), help="Port to run the backend on.")
 parser.add_argument('--host', '-H', type=str,
-                    default=config.get('host', '0.0.0.0'), help="Binding IP.")
+                    default=config.get('host', '127.0.0.1'), help="Binding IP.")
 parser.add_argument('--debug', '-D', type=bool,
                     default=config.get('debug', False), help="Run in debug mode.")
 args = parser.parse_args()

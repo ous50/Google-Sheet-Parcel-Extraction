@@ -20,6 +20,13 @@ git clone https://github.com/ous50/Google-Sheet-Parcel-Extraction.git
 pip install -r requirements.txt
 ```
 
+### For Arch Linux users
+If you are using Arch Linux, you can install the required packages using the following command:
+
+```bash
+sudo pacman -Syu && sudo pacman -S python-pip python-flask python-requests python-google-api-python-client python-google-auth-oauthlib python-waitress 
+```
+
 3. Put your service account token in the same directory as the script and rename it to `service_account.json`. This script only uses the `service_account.json` file to get the credentials and will only use read-only access to publically shared Google Sheets.
 
 4. Put your Google Sheet ID in the `config.json` file
