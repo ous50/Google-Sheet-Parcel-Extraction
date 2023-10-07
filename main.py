@@ -43,11 +43,12 @@ def process_endpoint():
      # If bark is not in JSON body, get it from query parameters
     bark = data.get('bark') or request.args.get(
         'bark', default=False, type=bool)
+    bark_url = data.get('bark_url') or request.args.get('bark_url', type=str)
 
     result = get_msg(roomNumber)
 
     if bark:
-        notification.send_bark(result)
+        notification.send_bark(result, bark_url=bark_url)
 
     return jsonify({"roomNumber": roomNumber, "bark": bark, "result": result})
 

@@ -2,7 +2,7 @@ import json
 import requests
 from urllib.parse import quote_plus
 
-def send_bark(msg):
+def send_bark(msg, bark_url=None, title="Package Notification"):
 
     # Read configuration from config.json
     with open('config.json', 'r') as config_file:
