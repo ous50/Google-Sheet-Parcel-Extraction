@@ -45,6 +45,7 @@ You have the option to run the script:
   --port PORT, -P PORT  Port to run the backend on.
   --host HOST, -H HOST  Binding IP.
   --debug DEBUG, -D DEBUG Run in debug mode.
+  --path PATH, -p PATH  Path to the endpoint.
 ```
 
 If you want to run the script in the background, you can use the following command:
@@ -77,7 +78,35 @@ You can also run the getmsg.py script to get the data without starting API serve
 python getmsg.py <-R room> <-B>
 ```
 
-## 
+### For Users
+If you are a user, you can access the follwing url to get the data:
+
+```bash
+http://<IP>:<PORT>/<endpoint>?roomNumber=<roomNumber>&bark=<bark>&bark_url=<bark_url>
+```
+
+You can also POST json data:
+
+```bash
+{
+    "roomNumber": <roomNumber>,
+    "bark": <bark>,
+    "bark_url": <bark_url>
+}
+```
+ For example:
+ ```bash
+ curl -X POST -H "Content-Type: application/json" -d '{"roomNumber": "b123f", "bark": true, "bark_url": "https://bark.com"}' http://<IP>:<PORT>/<endpoint>
+ ```
 
 ## LICENSE
 [MIT]()
+
+## Disclaimer
+This script is only designed for personal use. I am not responsible for any loss caused by the use of this script. Create an issue if you have any questions or found any bug.
+
+## Credits
+- [bark](https://github.com/Finb/Bark)
+
+## Author
+[ous50](https://ous50.moe)
