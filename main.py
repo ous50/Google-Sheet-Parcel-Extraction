@@ -45,12 +45,20 @@ def process_endpoint():
         'bark', default=False, type=bool)
     bark_url = data.get('bark_url') or request.args.get('bark_url', type=str)
 
+    email = data.get('email') or request.args.get('email', type=str)
+    email_recipient = data.get('email_recipient') or request.args.get('email_recipient', type=str)
+
     result = get_msg(roomNumber)
 
     if bark:
         if not bark_url or not isinstance(bark_url, str):
             return jsonify({"error": "bark_url required."}), 400
         notification.send_bark(result, bark_url=bark_url)
+
+    if email:
+        if not email_recipient or not isinstance(email_recipient, str):
+            return jsonify({"error": "email_recipient required."}), 400
+        email.send_email(result, recipient=email_recipient)
 
     return jsonify({"roomNumber": roomNumber, "bark": bark, "result": result})
 

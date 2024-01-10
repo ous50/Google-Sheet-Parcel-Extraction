@@ -22,14 +22,16 @@ def get_sheet_titles():
     spreadsheet = service.spreadsheets().get(spreadsheetId=spreadsheet_id).execute()
     sheet_titles = [sheet['properties']['title'] for sheet in spreadsheet['sheets']]
     # return sheet_titles
-    # Filter out only the 2023 sheets
-    sheet_titles = [title for title in sheet_titles if "2023" in title or " 23" in title]
+    # Filter out only the present year sheets
+    year = str(datetime.now().year)
+    sheet_titles = [title for title in sheet_titles if year in title]
     # print(sheet_titles)
     return sheet_titles
 
 # Get the most recent sheet title from the list of sheet titles, by converting the list to a dictionary and sorting the dictionary by key
 def get_most_recent_sheet_title():
     sheets = get_sheet_titles()
+    # print("sheets:" + str(sheets))
     # Updated mapping for common month name variations
     month_mapping = {
         "jan": "Jan", "feb": "Feb", "mar": "Mar", "apr": "Apr", "may": "May",
@@ -45,11 +47,13 @@ def get_most_recent_sheet_title():
         if len(year) == 2:  # Convert 2-digit year to 4-digit
             year = '20' + year
         # Convert to date using abbreviated month format
+        # print(f"{month} {year}")
         return datetime.strptime(f"{month} {year}", '%b %Y')
     
     # Convert all sheet names to dates
     dates = [convert_to_date(sheet) for sheet in sheets]
     
+    # print("most recent sheet:" + sheets[dates.index(max(dates))])
     # Return the sheet corresponding to the most recent date
     return sheets[dates.index(max(dates))]
 
